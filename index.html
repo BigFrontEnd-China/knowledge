@@ -19,11 +19,9 @@
 				<el-container>
 					<el-aside width="200px">
 						<ul>
-							<li class="active"><a href="inex.html">Sass编译优化及异常处理</a></li>
+							<li class="active"><a href="inex.html">web常规问题</a></li>
 							<li><a href="./src/array.html">数组组合排列及排序</a></li>
-							<li><a href=""></a></li>
-							<li><a href=""></a></li>
-							<li><a href=""></a></li>
+							<li><a href="./src/sass.html">Sass编译优化及异常处理</a></li>
 						</ul>
 					</el-aside>
 					<el-main> 
@@ -38,26 +36,53 @@
 let app = new Vue({
 	el: "#app",
 	data: {
-	content: `
-	//安装依赖包
-	cnpm install fast-sass-loader --save-dev
-	//可进sass代码编译去重。减少代码体积，提升编译效率。
-	//该插件不支持文件别名，同时影响在线换肤。换肤功能可进行样式配置。
-	const path = require('path');
-	//chainWebpack配置
-	function replaceSassLoaderFast (rule) {
-		rule.use('sass-loader')
-			.loader('fast-sass-loader')
-			.options({
-				includePaths: [
-					path.join(process.cwd(), 'src'),
-				],
-			});
-	}
-	const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
-	types.forEach((type) => {
-		replaceSassLoaderFast(config.module.rule('scss').oneOf(type));
-	})
+		content: `
+  //输入框输入法状态判断
+  compositionstart
+  compositionend
+  //获取文本光标索引位置
+  let selection = function (element) {
+    var s, e, range, stored_range
+    if (element.selectionStart == undefined) {
+      var selection = document.selection
+      if (element.tagName.toLowerCase() != 'textarea') {
+        var val = this.val(),
+          range = selection.createRange().duplicate()
+        range.moveEnd('character', val.length)
+        s = range.text == '' ? val.length : val.lastIndexOf(range.text)
+        range = selection.createRange().duplicate()
+        range.moveStart('character', -val.length)
+        e = range.text.length
+      } else {
+        range = selection.createRange()
+        stored_range = range.duplicate()
+        stored_range.moveToElementText(element)
+        stored_range.setEndPoint('EndToEnd', range)
+        s = stored_range.text.length - range.text.length
+        e = s + range.text.length
+      }
+    } else {
+      s = element.selectionStart
+      e = element.selectionEnd
+    }
+    var te = element.value.substring(s, e)
+    return { start: s, end: e, text: te }
+  }
+  //获取web选中文本内容
+  document.selection.createRange().text; IE9以下使用
+  window.getSelection().toString(); 其他浏览器使用
+  //取消选中文本内容
+  document.selection.empty(); IE9以下使用
+  window.getSelection().removeAllRanges(); 其他浏览器使用
+  //导出二进制文件
+  let blob = new Blob([response], { type: 'application/vnd.ms-excel' })
+  const link = document.createElement('a')
+  link.href = window.URL.createObjectURL(blob)
+  link.download = '工单列表.xlsx' // fix Firefox
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 	`
 	}
 });

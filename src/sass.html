@@ -20,8 +20,8 @@
 					<el-aside width="200px">
 						<ul>
 							<li><a href="../index.html">web常规问题</a></li>
-							<li class="active"><a href="array.html">数组组合排列及排序</a></li>
-							<li><a href="sass.html">Sass编译优化及异常处理</a></li>
+							<li><a href="array.html">数组组合排列及排序</a></li>
+							<li class="active"><a href="sass.html">Sass编译优化及异常处理</a></li>
 						</ul>
 					</el-aside>
 					<el-main> 
@@ -36,27 +36,25 @@
 let app = new Vue({
 	el: "#app",
 	data: {
-	content: `
-	//组合排列 let array = ['1','2','3']
-	function getGroup(data, index = 0, group = []) {
-	　　let need_apply = [];
-	　　need_apply.push(data[index]);
-	　　for (var i = 0; i < group.length; i++) {
-	　　　need_apply.push(group[i] + ' ' + data[index]);
-	　　}
-	　　group.push.apply(group, need_apply);
-	　　if (index + 1 >= data.length) return group;
-	　　else return getGroup(data, index + 1, group);
+  content: `
+	//安装依赖包
+	cnpm install fast-sass-loader --save-dev
+	//可进行sass代码编译去重。减少代码体积，提升编译效率。
+	//该插件不支持文件别名，同时影响在线换肤。换肤功能可进行样式配置。
+	const path = require('path');
+	//chainWebpack配置
+	function replaceSassLoaderFast (rule) {
+		rule.use('sass-loader')
+			.loader('fast-sass-loader')
+			.options({
+				includePaths: [
+					path.join(process.cwd(), 'src'),
+				],
+			});
 	}
-	//排序
-	let list = getGroup(array).sort((a,b)=>{
-	　　if (a.length < b.length ) {
-	　　　return 1
-	　　}
-	　　if (a.length > b.length ) {
-	　　　return -1
-	　　}
-	　　return 0
+	const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+	types.forEach((type) => {
+		replaceSassLoaderFast(config.module.rule('scss').oneOf(type));
 	})
 	`
 	}
