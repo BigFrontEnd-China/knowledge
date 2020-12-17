@@ -6,7 +6,7 @@
 		<title>knowledge</title>
 		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"/>
 		<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@10.4.1/styles/default.min.css">
-		<link	rel="stylesheet" href="./common.css" />
+		<link	rel="stylesheet" href="../common.css" />
 		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 		<script src="https://unpkg.com/@highlightjs/cdn-assets@10.4.1/highlight.min.js"></script>
@@ -19,8 +19,8 @@
 				<el-container>
 					<el-aside width="200px">
 						<ul>
-							<li class="active"><a href="inex.html">Sass编译优化及异常处理</a></li>
-							<li><a href="./src/array.html">数组组合排列及排序</a></li>
+							<li><a href="index.html">Sass编译优化及异常处理</a></li>
+							<li class="active"><a href="./src/array.html">数组组合排列及排序</a></li>
 							<li><a href=""></a></li>
 							<li><a href=""></a></li>
 							<li><a href=""></a></li>
@@ -39,24 +39,26 @@ let app = new Vue({
 	el: "#app",
 	data: {
 	content: `
-	//安装依赖包
-	cnpm install fast-sass-loader --save-dev
-	//可进sass代码编译去重。减少代码体积，提升编译效率。
-	//该插件不支持文件别名，同时影响在线换肤。换肤功能可进行样式配置。
-	const path = require('path');
-	//chainWebpack配置
-	function replaceSassLoaderFast (rule) {
-		rule.use('sass-loader')
-			.loader('fast-sass-loader')
-			.options({
-				includePaths: [
-					path.join(process.cwd(), 'src'),
-				],
-			});
+	//组合排列 let array = ['1','2','3']
+	function getGroup(data, index = 0, group = []) {
+	　　let need_apply = [];
+	　　need_apply.push(data[index]);
+	　　for (var i = 0; i < group.length; i++) {
+	　　　need_apply.push(group[i] + ' ' + data[index]);
+	　　}
+	　　group.push.apply(group, need_apply);
+	　　if (index + 1 >= data.length) return group;
+	　　else return getGroup(data, index + 1, group);
 	}
-	const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
-	types.forEach((type) => {
-		replaceSassLoaderFast(config.module.rule('scss').oneOf(type));
+	//排序
+	let list = getGroup(array).sort((a,b)=>{
+	　　if (a.length < b.length ) {
+	　　　return 1
+	　　}
+	　　if (a.length > b.length ) {
+	　　　return -1
+	　　}
+	　　return 0
 	})
 	`
 	}
