@@ -15,15 +15,14 @@
 	<body>
 		<div id="app">
 			<el-container>
-				<el-header>前端知识笔记</el-header>
+        <el-header>
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1"><a href="index.html">web常规问题</a></el-menu-item>
+            <el-menu-item index="3"><a href="./src/array.html">数组组合排列及排序</a></el-menu-item>
+            <el-menu-item index="4"><a href="./src/sass.html">Sass编译优化及异常处理</a></el-menu-item>
+          </el-menu>
+        </el-header>
 				<el-container>
-					<el-aside width="200px">
-						<ul>
-							<li class="active"><a href="inex.html">web常规问题</a></li>
-							<li><a href="./src/array.html">数组组合排列及排序</a></li>
-							<li><a href="./src/sass.html">Sass编译优化及异常处理</a></li>
-						</ul>
-					</el-aside>
 					<el-main> 
 						<pre>
 							<code class="javascript">{{content}}</code>
@@ -36,10 +35,12 @@
 let app = new Vue({
 	el: "#app",
 	data: {
-		content: `
+  activeIndex: '1',
+	content: `
   //输入框输入法状态判断
   compositionstart
   compositionend
+
   //获取文本光标索引位置
   let selection = function (element) {
     var s, e, range, stored_range
@@ -68,12 +69,15 @@ let app = new Vue({
     var te = element.value.substring(s, e)
     return { start: s, end: e, text: te }
   }
+
   //获取web选中文本内容
   document.selection.createRange().text; IE9以下使用
   window.getSelection().toString(); 其他浏览器使用
+
   //取消选中文本内容
   document.selection.empty(); IE9以下使用
   window.getSelection().removeAllRanges(); 其他浏览器使用
+
   //导出二进制文件
   let blob = new Blob([response], { type: 'application/vnd.ms-excel' })
   const link = document.createElement('a')
@@ -84,7 +88,12 @@ let app = new Vue({
   link.click()
   document.body.removeChild(link)
 	`
-	}
+	},
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
 });
 </script>
 	</body>

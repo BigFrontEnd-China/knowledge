@@ -15,46 +15,54 @@ body,
 	width: 100%;
 	height: 100%;
 }
-.el-header,
-.el-footer {
-	background-color: #19314a;
+.el-header {
 	color: #fff;
 	text-align: center;
-	line-height: 60px;
+	box-shadow: 1px 2px 5px #ddd;
 }
 .el-aside {
-	/* padding: 20px 0px; */
-	background-color:#132b42;
 	color: #fff;
 	text-align: center;
 }
 .el-main {
-	background-color: #f0f0f0;
+	padding: 0px 20px 20px 20px;
 	text-align: left;
 }
 body > .el-container {
 	margin-bottom: 40px;
 }
-ul {
+/* ul {
+	position: fixed;
+	top: 30%;
+	right: 20px;
+	width: 200px;
 	list-style: none;
+	font-size: 14px;
+	background-color:#fff;
+	border-radius: 4px;
+	box-shadow: 1px 2px 5px #ddd;
 }
-ul > li {
+
+ul .nav {
+	display: block;
+	width: 100%;
 	height: 40px;
 	line-height: 40px;
+	text-decoration: none;
+	color: #666;
 	text-align: center;
 }
-ul > li:hover, ul > li.active {
-	background-color: #244363;
+ul .nav:hover, ul .active {
+	color: #409eff;
 	cursor: pointer;
 }
-ul a {
-	display: inline-block;
-	width: 100%;
-	height: 35px;
+ul .nav:link {
 	text-decoration: none;
-	color: #fff;
+} */
+.el-menu--horizontal>.el-menu-item.is-active {
+	color: #409eff;
 }
-ul a:link {
+.el-menu--horizontal>.el-menu-item a {
 	text-decoration: none;
 }
 .el-main::-webkit-scrollbar {/*滚动条整体样式*/
@@ -63,8 +71,8 @@ ul a:link {
 }
 .el-main::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
 	border-radius: 10px;
-	 -webkit-box-shadow: inset 0 0 5px #ddd;
-	background: #999999;
+	-webkit-box-shadow: inset 0 0 5px #ddd;
+	background: #ccc;
 }
 .el-main::-webkit-scrollbar-track {/*滚动条里面轨道*/
 	-webkit-box-shadow: inset 0 0 5px #ddd;
